@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding_photo_shower</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        :root {
+            /* フェードイン時の降下値 */
+            --height: -50%;
+            --pictureAnimate: 20s;
+        }
+
+        .photo-shower-container {
+            position: relative;
+            height: 100vh;
+            /* コンテナの高さ */
+            width: 100%;
+            /* コンテナの横幅 */
+            overflow: hidden;
+            /* コンテナからはみ出した要素を隠す */
+            background-image: linear-gradient(to right, #000b1a 0%, #0b193c 100%);
+            background-size: 200% 200%;
+            /*サイズを大きくひきのばす*/
+            animation: bggradient 5s linear infinite;
+        }
+
+        .photo-shower-back {
+            height: 100vh;
+            /* コンテナの高さ */
+            width: 100%;
+            /* コンテナの横幅 */
+        }
+
+        @keyframes bggradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .backgound {
+            box-shadow: 0px 0px 20px 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .fadeUp {
+            position: absolute;
+            /* ここは動的に変更したい */
+            left: 30%;
+            transform: translate(0, -50%);
+            animation: fadeUpAnime 3s forwards;
+        }
+
+        @keyframes fadeUpAnime {
+            from {
+                top: -50%;
+            }
+
+            to {
+                top: 50%;
+                transform: translate(0, var(--height));
+            }
+        }
+
+        .anime-fuwafuwa {
+            animation: 3s fuwafuwa infinite;
+        }
+
+        @keyframes fuwafuwa {
+
+            0%,
+            100% {
+                top: 50%;
+                transform: translate(0, var(--height));
+            }
+
+            50% {
+                transform: translate(5%, var(--height));
+            }
+        }
+
+        .fadeout {
+            animation: 3s fuwafuwa infinite, fadeout-anim 3s linear forwards;
+        }
+
+        @keyframes fadeout-anim {
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* 写真のスタイル */
+        .picture {
+            position: absolute;
+            top: 50%;
+            box-shadow: 0px 0px 20px 5px rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            animation: animate-picture var(--pictureAnimate) ease-in-out;
+        }
+
+        .pic {
+            max-width: 600px;
+            max-height: 600px;
+        }
+
+        /* 写真のアニメーション */
+        @keyframes animate-picture {
+            0% {
+                left: -50%;
+            }
+
+            15% {
+                transform: translate(-50%, -50%);
+                left: 50%;
+            }
+
+            16% {
+                transform: translate(-50%, -50%);
+                left: 50%;
+            }
+
+            30% {
+                transform: translate(-50%, -50%) scale(1.3);
+                visibility: visible;
+            }
+
+            70% {
+                transform: translate(-50%, -50%) scale(1.3);
+            }
+
+            85% {
+                left: 50%;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            86% {
+                left: 50%;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            100% {
+                left: 50%;
+                transform: translate(-50%, -300%)
+            }
+        }
+
+        .content {
+            position: relative;
+        }
+
+        .score {
+            position: absolute;
+            visibility: hidden;
+            bottom: 0;
+        }
+
+        .num {
+            position: absolute;
+            top: 45px;
+            font-size: 40px;
+            left: 35px;
+            color: red;
+        }
+
+        .percent {
+            position: absolute;
+            top: 70px;
+            font-size: 16px;
+            left: 90px;
+        }
+
+        .fadeIn {
+            animation: fadeInAnime 500ms forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInAnime {
+            0% {
+                opacity: 0;
+                transform: scale(1.4);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:active {
+            opacity: 0.6;
+        }
+
+        button:disabled {
+            opacity: 0.4;
+        }
+
+        .input-range[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #c7c7c7;
+            height: 2px;
+            width: 70%;
+        }
+
+        .input-range[type="range"]:focus {
+            outline: none;
+        }
+
+        .input-range[type="range"]:active {
+            outline: none;
+        }
+
+        .input-range[type="range"]:disabled {
+            opacity: 0.4;
+        }
+
+        .input-range[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+            border: none;
+            width: 16px;
+            height: 16px;
+            display: block;
+            background-color: #ffffff;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+        }
+
+        .range-label {
+            color: #FFF;
+            margin: 5px;
+        }
+
+        #inputField {
+            position: absolute;
+            bottom: 30px;
+            left: 4%;
+            width: 100%;
+        }
+
+        .inputButton {
+            background: transparent;
+            border: 2px solid #FFF;
+            color: #FFF;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-right: 24px;
+        }
+
+        .finishLayer {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0);
+            /* 初期の透過度を1に設定 */
+            animation: white 3s ease-in-out forwards;
+        }
+
+        @keyframes white {
+            0% {
+                background-color: rgba(255, 255, 255, 0);
+                /* 透過度を0に変更 */
+            }
+
+            100% {
+                background-color: rgba(255, 255, 255, 0.15);
+                /* 透過度を1に変更 */
+            }
+        }
+
+        /* 写真のスタイル */
+        .end-picture {
+            position: absolute;
+            top: 50%;
+            box-shadow: 0px 0px 20px 5px rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            animation: end-animate-picture var(--pictureAnimate) ease-in-out forwards;
+        }
+
+        /* 写真のアニメーション */
+        @keyframes end-animate-picture {
+            0% {
+                left: -50%;
+            }
+
+            15% {
+                transform: translate(-50%, -50%);
+                left: 50%;
+            }
+
+            16% {
+                transform: translate(-50%, -50%);
+                left: 50%;
+            }
+
+            30% {
+                transform: translate(-50%, -50%) scale(1.3);
+                visibility: visible;
+            }
+
+            70% {
+                transform: translate(-50%, -50%) scale(1.3);
+            }
+
+            100% {
+                left: 50%;
+                transform: translate(-50%, -50%) scale(1.3);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class='content'>
+        <div class='photo-shower-container'>
+            <div class="photo-shower-back"></div>
+            <div id="inputField">
+                <button class="inputButton" id="inputStartButton" onclick="onClickStart()">Start</button>
+                <button class="inputButton" id="inputPauseButton" onclick="onClickPause()" disabled>Pause</button>
+                <button class="inputButton" id="inputEndButton" onclick="onClickEnd()" disabled>End</button>
+                <span class="range-label">Fast</span>
+                <input type="range" id="inputSliderResult" class="input-range" min="1" max="10" value="5">
+                <span class="range-label">Slow</span>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // エンドポイントへのURL
+    const BACKEND_URL = "https://script.googleusercontent.com/a/macros/hcs.ac.jp/echo?user_content_key=8XfvghXJycrOB1s2S_tCrfpxyWB48X83Tc-HHFANrWvoJpcgUyZf9uobG2RrrCCn1Svel2ajSAhryHyUuKDB_4XIbu8Yp6N-m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_nRPgeZU6HP_0zTYnA2sIrbgNqs4pb6vdYrhDVdJHZ3aJgDn8SMcIIgMH7X1wvUugR_odCISApmPVbRb9wm_ZF_cFk67j67M6qNKzKmJYTfnqo3rqovr9Qkp5PMA1PTgSGGaU2pP6Ntk&lib=MNRcDDr6CKhMyhUqZEMsPBu8x4UygFT0t"
+    const FIN_URL = "https://script.googleusercontent.com/a/macros/hcs.ac.jp/echo?user_content_key=JpvuGs7aqqXrlaZA6f-tdaz8CwiUh2GnZpJpQ4e_8kREo-xQwGPPNFa4MVwyqtOPnqrxYva1UjfbMnSHShXsw2lI7l12Mqkhm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_nRPgeZU6HP_0zTYnA2sIrbgNqs4pb6vdJL4a0UIBVfY5lseUpeEfmRMhgLqIYYyv3vHi5wj6yeSD_di_bLQeyIapsiBXtLrQpWfDmVwujvLmfzNjljUlT2wkCCkfoMrqGGaU2pP6Ntk&lib=MNMplxJEkdMxbYd8qePoG8-8x4UygFT0t"
+    // 背景に映る画像のリスト
+    var backgroundimage_list = [];
+    // 写真生成インターバル
+    var createPicInterval = 20000;
+    // バッチ生成インターバル
+    var createBadgeInterval = 6500;
+
+    let smileMax = []
+
+    // はじめに表示される写真たち。ここのファイル指定をそれぞれの環境に合わせるととりあえずうごく
+    let image_list = [
+        {
+            "url": "https://lh3.googleusercontent.com/d/1SfswZ7SB770UnxU9dlfL2AYwymbsA5FY",
+            "smile": "[[1853.485390625,433.0812413641747,0.7354134249687195]]"
+        }
+    ]
+
+    const section = document.querySelector('.photo-shower-container');
+    let field = 'right'; // 左右交互に写真を表示させるため
+    // 表示画像リストの指標
+    let count = 0;
+    // どこまで表示したかを表す指標
+    let showIndicatorCount = 1000
+    // 戻り状態の可否(一周して戻っているか)
+    backflg = false
+    // 戻り状態から復帰する際の退避指標
+    let backedShowIndicatorCount = 0
+
+    var createId = null;
+
+    // 画像の配置順番
+    let directionCount = 0
+
+    // 写真を生成する関数
+    function createPic() {
+
+        // image_listを更新されているかチェック
+        if (showIndicatorCount < image_list.length & backflg) {
+            // 現状の指標を退避
+            backedShowIndicatorCount = count
+            // 退避していた指標を取り出す
+            count = showIndicatorCount
+            // 戻り状態を初期化
+            backflg = false
+        }
+
+        // 写真コンポーネントの生成
+        const pictureEl = document.createElement('span');
+        pictureEl.className = 'picture';
+        // 写真タグの生成
+        let image = document.createElement('img');
+        image.className = 'pic';
+        image.src = image_list[count]["url"];
+        const smile_json = image_list[count]["smile"];
+
+        // 写真の長辺の長さを指定
+        const minSize = 800;
+        const maxSize = 1000;
+        let size = Math.random() * (maxSize + 1 - minSize) + minSize;
+
+        // ここで写真のむきを取得。
+        getPictureDirection(image.src)
+            // dataにはwidthかheight。長い方がstringで入っている。
+            .then((data) => {
+                if (data === 'width') {
+                    image.style.width = size + 'px';
+                    image.style.height = 'auto';
+                } else {
+                    image.style.height = size + 'px';
+                    image.style.weight = 'auto';
+                }
+                pictureEl.appendChild(image);
+
+                // TODO 顔の数分だけスコアを追加するべき
+                // スコアの生成
+                const parsed = JSON.parse(smile_json)
+                for (i = 0; i < parsed.length; i++) {
+                    // スコア画像の生成
+                    const panel = document.createElement('img');
+                    panel.src = 'panel.png'
+                    panel.style.width = '130px';
+
+                    // スコアパーセントの生成
+                    const percent = document.createElement('p');
+                    percent.className = "percent"
+                    percent.textContent = '%';
+                    // スコアコンポーネントの生成
+                    const score = document.createElement('div');
+                    score.className = 'score'
+
+                    score.appendChild(percent);
+                    const num = document.createElement('p');
+                    num.className = 'num'
+                    const smile = smile_json;
+                    const newContent = document.createTextNode(Math.round(parsed[i][2] * 100));
+                    num.appendChild(newContent);
+                    score.appendChild(num);
+                    score.appendChild(panel);
+                    score.style.left = parsed[i][0]
+                    score.style.top = parsed[i][1]
+
+                    pictureEl.appendChild(score);
+                }
+
+                // 左右の順番に写真が表示されるように
+                if (field === 'right') {
+                    field = 'left';
+                } else {
+                    field = 'right'
+                }
+                section.appendChild(pictureEl);
+            })
+            .catch((err) => {
+                console.log("error", err);
+            });
+
+        // 一定時間が経てば写真を消す
+        setTimeout(() => {
+            pictureEl.remove();
+        }, createPicInterval);
+
+        // 全て背景にしたら、背景画像の追加を行わない
+        if (backgroundimage_list.length < image_list.length) {
+            setTimeout(() => {
+                createBackPic()
+            }, createPicInterval - 1000);
+        }
+
+        // バッジの表示タイミング
+        setTimeout(() => {
+            const select = document.getElementsByClassName("score")
+            Array.prototype.forEach.call(select, function (item) {
+                item.style.visibility = "visible"
+                item.classList.add('fadeIn');
+            })
+        }, createBadgeInterval);
+
+        // リストの最初に戻っていた場合は追加しない
+        if (image_list.length > backgroundimage_list.length) {
+            backgroundimage_list.push(image_list[count]["url"])
+        }
+
+        count += 1;
+
+        // image_listを全て表示したらもとに戻る
+        if (count >= image_list.length) {
+            // 一旦現状の指標を退避
+            showIndicatorCount = count
+            // 退避していた指標を設定
+            count = backedShowIndicatorCount;
+            // 戻り状態をONへ
+            backflg = true
+        }
+    }
+
+    // APIでimage_listの中身を取得。別記事参照。
+    function changePicture(modify_time) {
+        return $.ajax({
+            url: '*****',
+            type: 'POST',
+            data: { body: modify_time },
+            dataType: 'json', // 応答のデータの種類 (xml/html/script/json/jsonp/text)
+            contentType: "application/json;charset=UTF-",
+            accessControlAllowOrigin: '*',
+            headers: {
+                'x-api-key': '*****'
+            }
+        })
+    }
+
+
+    // 写真を読み込んでから向きの判定
+    const loadImg = function (src) {
+        return new Promise(function (resolve, reject) {
+            const image = new Image();
+            image.src = src;
+            image.onload = function () {
+                resolve(image);
+            }
+            image.onerror = function (error) {
+                reject(error);
+            }
+        });
+    }
+
+    // 写真の向きを取得
+    let getPictureDirection = function getDirection(src) {
+        return new Promise(function (resolve, reject) {
+            loadImg(src)
+                //読み込みが完了した（画像が設定された）Imageオブジェクトを受け取って処理
+                .then(function (res) {
+                    if (res.width > res.height) {
+                        resolve('width');
+                    } else {
+                        resolve('height');
+                    }
+                })
+                //読み込みエラー時の処理
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
+    }
+
+    function getInclent() {
+        directionCount++
+        if (directionCount > 5) {
+            directionCount = 1
+        }
+        return directionCount
+    }
+
+    // 背景写真を生成する関数
+    function createBackPic() {
+        let field = 'right'; // 左右交互に写真を表示させるため
+
+        const section = document.querySelector('.photo-shower-back');
+        // 写真コンポーネントの生成
+        const pictureEl = document.createElement('span');
+        pictureEl.className = 'backgound';
+
+        // ここはランダムでクラス付けしたい
+        // 左右は0％〜70%
+        // 上下は-１４０％〜１０%
+        pictureEl.classList.add('fadeUp');
+        switch (getInclent()) {
+            case 1:
+                // 左上
+                pictureEl.style.left = getRandomInt(0, 30) + '%';
+                pictureEl.style.setProperty('--height', getRandomInt(-160, -85) + '%')
+                break
+            case 2:
+                // 右上
+                pictureEl.style.left = getRandomInt(50, 80) + '%';
+                pictureEl.style.setProperty('--height', getRandomInt(-160, -85) + '%')
+                break
+            case 3:
+                // 右下
+                pictureEl.style.left = getRandomInt(50, 80) + '%';
+                pictureEl.style.setProperty('--height', getRandomInt(-20, 10) + '%')
+                break
+            case 4:
+                // 左下
+                pictureEl.style.left = getRandomInt(0, 30) + '%';
+                pictureEl.style.setProperty('--height', getRandomInt(-20, 10) + '%')
+                break
+            default:
+                // 中央
+                pictureEl.style.left = getRandomInt(30, 40) + '%';
+                pictureEl.style.setProperty('--height', getRandomInt(-95, -30) + '%')
+        }
+        pictureEl.addEventListener('animationend', () => {
+            // アニメーション終了後に実行する内容
+            pictureEl.classList.add('anime-fuwafuwa');
+        })
+
+        // 写真タグの生成
+        let image = document.createElement('img');
+        image.className = 'pic';
+        image.src = backgroundimage_list[backgroundimage_list.length - 1];
+
+        // 写真の長辺の長さを指定
+        const minSize = 200;
+        const maxSize = 350;
+        let size = Math.random() * (maxSize + 1 - minSize) + minSize;
+
+        // ここで写真のむきを取得。
+        getPictureDirection(image.src)
+            // dataにはwidthかheight。長い方がstringで入っている。
+            .then((data) => {
+                if (data === 'width') {
+                    image.style.width = size + 'px';
+                    image.style.height = 'auto';
+                } else {
+                    image.style.height = size + 'px';
+                    image.style.weight = 'auto';
+                }
+                pictureEl.appendChild(image);
+
+                // 左右の順番に写真が表示されるように
+                if (field === 'right') {
+                    // pictureEl.style.left = Math.random() * 200 + 'px';
+                    field = 'left';
+                } else {
+                    // pictureEl.style.left = Math.random() * 375  + 375 + 'px';
+                    field = 'right'
+                }
+                section.appendChild(pictureEl);
+            })
+            .catch((err) => {
+                console.log("error", err);
+            });
+    }
+
+    // スライダーのリスナー
+    const inputSliderResult = document.querySelector("#inputSliderResult");
+    inputSliderResult.addEventListener("input", (e) => {
+        // 20秒をベースに10メモリ分の初期値が５なので、1メモリあたり４秒計算
+        const baseSpeed = 4;
+        const newSpeed = Number(e.target.value) * baseSpeed;
+
+        // 写真生成インターバルの変更
+        createPicInterval = newSpeed * 1000;
+        // バッチインターバルの変更
+        createBadgeInterval = Math.ceil(createPicInterval / 3)
+
+        // CSSアニメーションの変更
+        const root = document.querySelector(':root');
+        root.style.setProperty("--pictureAnimate", newSpeed + 's');
+    });
+
+    // -140から10までのランダムな整数を生成する関数
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // リザルトの関数
+    function onClickStart() {
+        disabledSliderResult();
+        disabledStartButton();
+        enabledPauseButton()
+        enabledEndutton();
+
+        // 写真を生成する間隔をミリ秒で指定
+        createId = setInterval(function () {
+            createPic()
+        }, createPicInterval);
+
+        // 初回だけ待たない
+        createPic()
+    }
+
+    function onClickPause() {
+        disabledPauseButton();
+        clearInterval(createId)
+        enabledStartButton()
+        enabledSliderResult();
+    }
+
+    // 有効化
+    function enabledSliderResult() {
+        const inputSliderResult = document.querySelector("#inputSliderResult");
+        inputSliderResult.disabled = false;
+    }
+
+    // 無効化
+    function disabledSliderResult() {
+        const inputSliderResult = document.querySelector("#inputSliderResult");
+        inputSliderResult.disabled = true;
+    }
+
+    // 有効化
+    function enabledStartButton() {
+        const inputStartButton = document.querySelector("#inputStartButton");
+        inputStartButton.style.background = 'transparent'
+        inputStartButton.style.color = '#FFF'
+        inputStartButton.disabled = false;
+    }
+
+    // 無効化
+    function disabledStartButton() {
+        const inputStartButton = document.querySelector("#inputStartButton");
+        inputStartButton.style.background = '#FFF'
+        inputStartButton.style.color = '#000'
+        inputStartButton.disabled = true;
+    }
+
+    // 有効化
+    function enabledPauseButton() {
+        const inputPauseButton = document.querySelector("#inputPauseButton");
+        inputPauseButton.style.background = 'transparent'
+        inputPauseButton.style.color = '#FFF'
+        inputPauseButton.disabled = false;
+    }
+
+    // 無効化
+    function disabledPauseButton() {
+        const inputPauseButton = document.querySelector("#inputPauseButton");
+        inputPauseButton.style.background = '#FFF'
+        inputPauseButton.style.color = '#000'
+        inputPauseButton.disabled = true;
+    }
+
+    // 有効化
+    function enabledEndutton() {
+        const inputEndButton = document.querySelector("#inputEndButton");
+        inputEndButton.style.background = 'transparent'
+        inputEndButton.style.color = '#FFF'
+        inputEndButton.disabled = false;
+    }
+
+    fetchData();
+    window.setInterval(() => {
+        fetchData();
+    }, 5000);
+
+    function fetchData() {
+        // XMLHttpRequestオブジェクトを作成
+        var xhr = new XMLHttpRequest();
+
+        // リクエストの設定
+        xhr.open('GET', BACKEND_URL, true);
+
+        // リクエストが完了したときの処理
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // レスポンスが成功の場合の処理
+                image_list = JSON.parse(xhr.responseText);
+            } else {
+                // エラーが発生した場合の処理
+                console.error('リクエストエラー:', xhr.status);
+            }
+        };
+
+        // リクエスト送信
+        xhr.send();
+        console.log("送信")
+    }
+
+    function onClickEnd() {
+        onClickPause()
+        // 入力部分を消す
+        const inputField = document.querySelector("#inputField");
+        inputField.style.display = "none";
+        window.setTimeout(() => {
+            endroll();
+        }, createPicInterval);
+    }
+
+    function endroll() {
+
+        // XMLHttpRequestオブジェクトを作成
+        var xhr = new XMLHttpRequest();
+
+        // 透過用のレイヤーを追加
+        const createElement = document.createElement('div');
+        inputField.parentNode.insertBefore(createElement, inputField);
+        createElement.classList.add("finishLayer");
+
+        // リクエストの設定
+        xhr.open('GET', FIN_URL, true);
+
+        // リクエストが完了したときの処理
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // レスポンスが成功の場合の処理
+                smileMax = JSON.parse(xhr.responseText);
+                endPic()
+            } else {
+                // エラーが発生した場合の処理
+                console.error('リクエストエラー:', xhr.status);
+            }
+        };
+
+        // リクエスト送信
+        xhr.send();
+        console.log("送信")
+
+        // 背景の画像をフェードアウト
+        const select = document.getElementsByClassName("anime-fuwafuwa")
+        Array.prototype.forEach.call(select, function (item) {
+            item.classList.add('fadeout');
+        })
+
+
+    }
+
+    // 写真を生成する関数
+    function endPic() {
+
+        // 写真コンポーネントの生成
+        const pictureEl = document.createElement('span');
+        pictureEl.className = 'end-picture';
+        // 写真タグの生成
+        let image = document.createElement('img');
+        image.className = 'pic';
+        image.src = smileMax[0]["url"];
+        const smile_json = smileMax[0]["smile"];
+
+        // 写真の長辺の長さを指定
+        const minSize = 800;
+        const maxSize = 1000;
+        let size = Math.random() * (maxSize + 1 - minSize) + minSize;
+
+        // ここで写真のむきを取得。
+        getPictureDirection(image.src)
+            // dataにはwidthかheight。長い方がstringで入っている。
+            .then((data) => {
+                if (data === 'width') {
+                    image.style.width = size + 'px';
+                    image.style.height = 'auto';
+                } else {
+                    image.style.height = size + 'px';
+                    image.style.weight = 'auto';
+                }
+                pictureEl.appendChild(image);
+
+                // スコアの生成
+                const parsed = JSON.parse(smile_json)
+                for (i = 0; i < parsed.length; i++) {
+                    // スコア画像の生成
+                    const panel = document.createElement('img');
+                    panel.src = 'panel.png'
+                    panel.style.width = '130px';
+
+                    // スコアパーセントの生成
+                    const percent = document.createElement('p');
+                    percent.className = "percent"
+                    percent.textContent = '%';
+                    // スコアコンポーネントの生成
+                    const score = document.createElement('div');
+                    score.className = 'score'
+
+                    score.appendChild(percent);
+                    const num = document.createElement('p');
+                    num.className = 'num'
+                    const smile = smile_json;
+                    const newContent = document.createTextNode(Math.round(parsed[i][2] * 100));
+                    num.appendChild(newContent);
+                    score.appendChild(num);
+                    score.appendChild(panel);
+                    score.style.left = parsed[i][0]
+                    score.style.top = parsed[i][1]
+
+                    pictureEl.appendChild(score);
+                }
+
+                // 左右の順番に写真が表示されるように
+                if (field === 'right') {
+                    field = 'left';
+                } else {
+                    field = 'right'
+                }
+                section.appendChild(pictureEl);
+            })
+            .catch((err) => {
+                console.log("error", err);
+            });
+
+
+        // バッジの表示タイミング
+        setTimeout(() => {
+            const select = document.getElementsByClassName("score")
+            Array.prototype.forEach.call(select, function (item) {
+                item.style.visibility = "visible"
+                item.classList.add('fadeIn');
+            })
+        }, createBadgeInterval);
+    }
+</script>
