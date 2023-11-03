@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wedding_photo_shower</title>
+    <title>Smileys</title>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -407,6 +408,9 @@
 
     let smileMax = [];
 
+    // 初期表示時のstarボタン制御フラグ
+    let readyFlg = true;
+
     // はじめに表示される写真たち。ここのファイル指定をそれぞれの環境に合わせるととりあえずうごく
     let image_list = [
       {
@@ -431,6 +435,9 @@
     // 画像の配置順番
     let directionCount = 0;
 
+    // startボタン無効化
+    disabledStartButton();
+
     // 写真を生成する関数
     function createPic() {
       // image_listを更新されているかチェック
@@ -445,9 +452,12 @@
 
       // 写真コンポーネントの生成
       const pictureEl = document.createElement("span");
-      pictureEl.className = "picture";
       // 写真タグの生成
       let image = document.createElement("img");
+      image.addEventListener("load", (e) => {
+        pictureEl.className = "picture";
+        console.log(image_list[count]["url"]);
+      });
       image.className = "pic";
       image.src = image_list[count]["url"];
       const smile_json = image_list[count]["smile"];
@@ -724,8 +734,8 @@
     function onClickStart() {
       disabledSliderResult();
       disabledStartButton();
+      disabledEndutton();
       enabledPauseButton();
-      enabledEndutton();
 
       // 写真を生成する間隔をミリ秒で指定
       createId = setInterval(function () {
@@ -741,6 +751,7 @@
       clearInterval(createId);
       enabledStartButton();
       enabledSliderResult();
+      enabledEndutton();
     }
 
     // 有効化
@@ -795,6 +806,14 @@
       inputEndButton.disabled = false;
     }
 
+    // 有効化
+    function disabledEndutton() {
+      const inputEndButton = document.querySelector("#inputEndButton");
+      inputEndButton.style.background = "transparent";
+      inputEndButton.style.color = "#FFF";
+      inputEndButton.disabled = true;
+    }
+
     fetchData();
     window.setInterval(() => {
       fetchData();
@@ -812,6 +831,10 @@
         if (xhr.status === 200) {
           // レスポンスが成功の場合の処理
           image_list = JSON.parse(xhr.responseText);
+          if (readyFlg) {
+            enabledStartButton();
+            readyFlg = false;
+          }
         } else {
           // エラーが発生した場合の処理
           console.error("リクエストエラー:", xhr.status);
@@ -828,8 +851,9 @@
       // 入力部分を消す
       const inputField = document.querySelector("#inputField");
       inputField.style.display = "none";
+      endroll();
       window.setTimeout(() => {
-        endroll();
+        console.log("ほげ");
       }, createPicInterval);
     }
 
@@ -842,6 +866,7 @@
       inputField.parentNode.insertBefore(createElement, inputField);
       createElement.classList.add("finishLayer");
 
+      // ドラムロールの再生
       const music = new Audio("./roll.mp3");
       music.play();
 
@@ -956,12 +981,14 @@
       }, createBadgeInterval);
     }
 
+    // 飾りつけ上部の表示
     function startFlgShow() {
       const finishFlags = document.querySelector("#finishFlags");
       finishFlags.style.display = "block";
       finishFlags.classList.add("fadeIn");
     }
 
+    // 飾りつけクラッカーの表示
     function startCrackerShow() {
       const finishFlags = document.querySelector("#cracker");
       finishFlags.style.display = "block";
